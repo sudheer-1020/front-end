@@ -1,26 +1,45 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+   <div>
+    <MoviesHeader />
+   <MoviesBox :movies=movies />
+   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MoviesBox from './components/MoviesBox.vue'
+import MoviesHeader from './components/MoviesHeader.vue'
 
-export default {
+export default{
   name: 'App',
-  components: {
-    HelloWorld
+  components:{
+    MoviesBox,
+    MoviesHeader
+
+  },
+  data(){
+    return {
+      movies: []
+    }
+  },
+  methods:{
+    //promises
+    async fetchMovies(){
+      const res = await fetch(" https://movies-g9w3.onrender.com/api ");
+      const data = await res.json()
+      console.log(data)
+      return data[0].movieshub
+    }
+  },
+  async created(){
+    this.movies = await this.fetchMovies();
   }
+  
+
 }
+
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
